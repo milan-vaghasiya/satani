@@ -344,6 +344,21 @@ function getProductionDtHeader($page){
     $data['movement'][] = ["name"=>"Item","textAlign"=>"center"];
     $data['movement'][] = ["name"=>"Qty","textAlign"=>"center"];
 
+
+    /* Bulk Rejection */
+    $masterCheckBox = '<input type="checkbox" id="masterSelect" class="filled-in chk-col-success BulkRejection" value=""><label for="masterSelect">ALL</label>';    
+	$data['bulkRejection'][] = ["name"=>"#","class"=>"text-center no_filter","sortable"=>FALSE];
+    $data['bulkRejection'][] = ["name"=>$masterCheckBox,"textAlign"=>"center","class"=>"text-center no_filter","orderable"=>"false"];
+    $data['bulkRejection'][] = ["name"=>"PRC No.","textAlign"=>"center"];
+    $data['bulkRejection'][] = ["name"=>"Product","textAlign"=>"left"];
+    $data['bulkRejection'][] = ["name"=>"Date","textAlign"=>"center"];
+    $data['bulkRejection'][] = ["name"=>"Process","textAlign"=>"center"];
+    $data['bulkRejection'][] = ["name"=>"Machine/Vendor","textAlign"=>"center"];
+    $data['bulkRejection'][] = ["name"=>"Operator/Inspector","textAlign"=>"center"];
+    $data['bulkRejection'][] = ["name"=>"Qty","textAlign"=>"center"];
+    $data['bulkRejection'][] = ["name"=>"Reviewed Qty","textAlign"=>"center"];
+    $data['bulkRejection'][] = ["name"=>"Pending Qty","textAlign"=>"center"];
+
     return tableHeader($data[$page]);
 }
 
@@ -856,5 +871,14 @@ function getMovementData($data){
 
     $action = getActionButton($printTag.$deleteBtn);
     return [$action,$data->sr_no,$data->prc_number,formatDate($data->prc_date),(!empty($data->item_code) ? "[ ".$data->item_code." ] " : "").$data->item_name.(!empty($data->part_no) ? " - ".$data->part_no : ""),floatval($data->qty)];
+}
+
+/* Get Rejection Review Data */
+function getbulkRejectionData($data){
+    $selectBox = '<input type="checkbox" name="log_id[]" id="log_id_'.$data->sr_no.'" class="filled-in chk-col-success BulkRejection" value="'.$data->id.'"><label for="log_id_'.$data->sr_no.'"></label>';	
+
+    $pendingQtyInput = '<input type="text" name="qty[]" id="qty_'.$data->sr_no.'" class="form-control qty_input numericOnly" value="'.$data->pending_qty.'" disabled>';	
+
+    return [$data->sr_no,$selectBox,$data->prc_number,'['.$data->item_code.'] '.$data->item_name,formatDate($data->trans_date),$data->process_name,(!empty($data->processor_name)?$data->processor_name:''),$data->emp_name,$data->rej_found,$data->review_qty,$pendingQtyInput];
 }
 ?>
