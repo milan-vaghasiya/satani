@@ -1,0 +1,19 @@
+ALTER TABLE `sq_master` ADD `project_type` INT NOT NULL DEFAULT '1' COMMENT '1=Automation ,2 =Theater' AFTER `trans_number`;
+ALTER TABLE `sq_master` ADD `project_id` INT NOT NULL DEFAULT '0' AFTER `id`;
+
+UPDATE `sub_menu_master` SET `sub_menu_name` = 'Project', `sub_controller_name` = 'project', `vou_name_long` = 'project', `vou_name_short` = 'PJ', `vou_prefix` = 'PJ/' WHERE `sub_menu_master`.`id` = 24 ;
+
+INSERT INTO `sub_menu_master` (`id`, `menu_type`, `sub_menu_seq`, `sub_menu_icon`, `sub_menu_name`, `sub_controller_name`, `menu_id`, `is_report`, `is_approve_req`, `is_system`, `report_id`, `notify_on`, `vou_name_long`, `vou_name_short`, `auto_start_no`, `vou_prefix`, `created_by`, `created_at`, `updated_by`, `updated_at`, `is_delete`) VALUES (NULL, '1', '4', 'icon-Record', 'Work Progress', 'workProgress', '7', '0', '0', '0', NULL, '0,0,0', '', '', '0', '', '0', '2021-06-23 15:40:25', '0', '2021-06-23 15:40:25', '0');
+
+INSERT INTO `sub_menu_master` (`id`, `menu_type`, `sub_menu_seq`, `sub_menu_icon`, `sub_menu_name`, `sub_controller_name`, `menu_id`, `is_report`, `is_approve_req`, `is_system`, `report_id`, `notify_on`, `vou_name_long`, `vou_name_short`, `auto_start_no`, `vou_prefix`, `created_by`, `created_at`, `updated_by`, `updated_at`, `is_delete`) VALUES (NULL, '1', '4', 'icon-Record', 'Work Instructions', 'workInstructions', '1', '0', '0', '0', NULL, '0,0,0', NULL, NULL, '0', NULL, '1', '2025-01-30 18:08:55', '1', '2025-01-30 18:08:55', '0');
+
+ALTER TABLE `work_instructions` CHANGE `title` `notes` TEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL;
+
+INSERT INTO `sub_menu_master` (`id`, `menu_type`, `sub_menu_seq`, `sub_menu_icon`, `sub_menu_name`, `sub_controller_name`, `menu_id`, `is_report`, `is_approve_req`, `is_system`, `report_id`, `notify_on`, `vou_name_long`, `vou_name_short`, `auto_start_no`, `vou_prefix`, `created_by`, `created_at`, `updated_by`, `updated_at`, `is_delete`) VALUES (NULL, '1', '5', 'icon-Record', 'Customer Complaints', 'customerComplaints', '7', '0', '0', '0', NULL, '0,0,0', '', '', '0', '', '0', '2021-06-23 15:40:25', '0', '2021-06-23 15:40:25', '0');
+
+ALTER TABLE `project_info` ADD `wi_id` VARCHAR(20) NULL DEFAULT NULL COMMENT 'Work Instruction Ids' AFTER `incharge_ids`;
+
+INSERT INTO `sub_menu_master` (`id`, `menu_type`, `sub_menu_seq`, `sub_menu_icon`, `sub_menu_name`, `sub_controller_name`, `menu_id`, `is_report`, `is_approve_req`, `is_system`, `report_id`, `notify_on`, `vou_name_long`, `vou_name_short`, `auto_start_no`, `vou_prefix`, `created_by`, `created_at`, `updated_by`, `updated_at`, `is_delete`) VALUES (NULL, '1', '1', 'icon-Record', 'Project Tracking', 'reports/salesReport/projectTracking', '7', '1', '0', '0', NULL, '0,0,0', '', '', '1', '', '0', '2021-06-23 08:40:25', '0', '2021-06-23 08:40:25', '0');
+INSERT INTO `sub_menu_master` (`id`, `menu_type`, `sub_menu_seq`, `sub_menu_icon`, `sub_menu_name`, `sub_controller_name`, `menu_id`, `is_report`, `is_approve_req`, `is_system`, `report_id`, `notify_on`, `vou_name_long`, `vou_name_short`, `auto_start_no`, `vou_prefix`, `created_by`, `created_at`, `updated_by`, `updated_at`, `is_delete`) VALUES (NULL, '1', '2', 'icon-Record', 'Task Manger', 'taskManager', '2', '0', '0', '0', NULL, '0,0,0', NULL, NULL, '0', NULL, '0', '2021-06-23 03:10:25', '0', '2021-06-23 03:10:25', '0');
+
+INSERT INTO `sub_menu_master` (`id`, `menu_type`, `sub_menu_seq`, `sub_menu_icon`, `sub_menu_name`, `sub_controller_name`, `menu_id`, `is_report`, `is_approve_req`, `is_system`, `report_id`, `notify_on`, `vou_name_long`, `vou_name_short`, `auto_start_no`, `vou_prefix`, `created_by`, `created_at`, `updated_by`, `updated_at`, `is_delete`) VALUES (NULL, '1', '1', 'icon-Record', 'Task Report', 'reports/salesReport/taskReport', '2', '1', '0', '0', NULL, '0,0,0', '', '', '1', '', '0', '2021-06-23 08:40:25', '0', '2021-06-23 08:40:25', '0');
