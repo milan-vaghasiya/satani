@@ -27,7 +27,7 @@
                         <div class="card-body reportDiv">
                             <div class="table-responsive">
                                 <table id='reportTable' class="table table-bordered">
-                                    <thead id="theadData">                                                                         
+                                    <thead id="theadData" class="thead-info">                                                                         
                                         <tr>
                                             <th>#</th>
                                             <th><input type="checkbox" id="masterSelect" class="filled-in chk-col-success BulkRejection"><label for="masterSelect">ALL</label></th>
