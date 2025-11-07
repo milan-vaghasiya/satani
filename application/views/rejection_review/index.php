@@ -4,10 +4,6 @@
 <div class="page-content-tab">
 	<div class="container-fluid">
         <div class="row">
-            <div class="col-md-12 mt-4">
-                <a href="<?= base_url('bulkRejection');?>" class="btn waves-effect waves-light btn-outline-success float-right">Bulk Rejection</a>
-            </div>
-
             <?php
             $rejTypeList = ['MFG'=>'Manufacturing','GRN'=>'GRN','Manual'=>'Manual'];
             foreach($rejTypeList as $key=>$value){

@@ -14,6 +14,14 @@
                             </li>
                         </ul>
 					</div>
+                    <?php
+                        if($source == 'MFG'){
+                        ?>
+                            <div class="float-end">
+                                <a href="<?= base_url('bulkRejection');?>" class="btn waves-effect waves-light btn-outline-success float-right">Bulk Rejection</a>
+                            </div>
+                        <?php }
+                    ?>
 				</div>
             </div>			
 		</div>

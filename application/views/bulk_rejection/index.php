@@ -1,10 +1,7 @@
 <?php $this->load->view('includes/header'); ?>
 <div class="page-content-tab">
 	<div class="container-fluid mt-4">
-        <form action="" method="post" id="addRejection">
-            <input type="hidden" id="decision_type" name="decision_type" value="1">
-            <input type="hidden" id="source" name="source" value="MFG">
-
+        <form action="" method="post" id="addRejection" data-res_function="bulkRejectionRes">
             <div class="row">
                 <div class="col-sm-4">
                     <label for="rr_reason">Rejection Reason</label>
@@ -14,22 +11,39 @@
                             foreach ($rejectionComments as $row){
                                 $code = (!empty($row->code)) ? '[' . $row->code . '] - ' : '';
                                 echo '<option value="' . $row->id . '" data-code="' . $row->code . '" data-reason="' . $row->remark . '" >' . $code . $row->remark . '</option>';
-
                             }
                         ?>
                     </select>
                 </div>	
                 <div class="col-sm-2">
                     <label>&nbsp;</label><br>
-                    <button type="button" class="btn btn-success btn-save save-form" onclick="store({'formId':'addRejection','fnsave':'saveReview','controller':'bulkRejection','txt_editor':'','form_close':''});"><i class="fa fa-check"></i> Save</button>
-                </div>		
+                    <button type="button" class="btn btn-success btn-save save-form"  onclick="customStore({'formId':'addRejection','fnsave':'saveReview'});"><i class="fa fa-check"></i> Save</button>
+                </div>	                
+                <button type="button" class="refreshReportData loadData d-none"></button>
             </div>
             <div class="row">
                 <div class="col-12">
                     <div class="card">
-                        <div class="card-body">
+                        <div class="card-body reportDiv">
                             <div class="table-responsive">
-                                <table id='cftTable' class="table table-bordered ssTable ssTable-cf" data-url='/getDTRows'></table>
+                                <table id='reportTable' class="table table-bordered">
+                                    <thead id="theadData">                                                                         
+                                        <tr>
+                                            <th>#</th>
+                                            <th><input type="checkbox" id="masterSelect" class="filled-in chk-col-success BulkRejection"><label for="masterSelect">ALL</label></th>
+                                            <th>PRC No.</th>
+                                            <th>Product</th>
+                                            <th>Date</th>
+                                            <th>Process</th>
+                                            <th>Machine/Vendor</th>
+                                            <th>Operator/Inspector</th>
+                                            <th>Qty</th>
+                                            <th>Reviewed Qty</th>
+                                            <th>Pending Qty</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="tbodyData"></tbody>
+                                </table>
                             </div>
                         </div>
                     </div>
@@ -43,6 +57,24 @@
 
 <script>
     $(document).ready(function() {
+        reportTable();
+        setTimeout(function(){$(".loadData").trigger('click');},500);
+    
+        $(document).on('click','.loadData',function(e){
+            $(".error").html("");
+            $.ajax({
+                url: base_url + controller + '/getRejectionReviewRows',
+                data: {},
+                type: "POST",
+                dataType:'json',
+                success:function(data){
+                    $("#reportTable").DataTable().clear().destroy();
+                    $("#tbodyData").html(data.tbody);
+                    reportTable();
+                }
+            });
+        });   
+        
         $(document).on('change', '.BulkRejection', function() {
             if ($(this).attr('id') == "masterSelect") {
                 if ($(this).prop('checked') == true) {
@@ -72,4 +104,21 @@
             }
         });
     });
+
+    function bulkRejectionRes(data,formId){
+        if(data.status==1){
+            Swal.fire({ icon: 'success', title: data.message});
+
+            setTimeout(() => {
+                window.location.reload();
+            }, 1000);
+        }else{
+            if(typeof data.message === "object"){
+                $(".error").html("");
+                $.each( data.message, function( key, value ) {$("."+key).html(value);});
+            }else{
+                Swal.fire({ icon: 'error', title: data.message });
+            }			
+        }			
+    }
 </script>
