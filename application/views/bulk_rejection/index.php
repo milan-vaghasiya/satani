@@ -105,7 +105,7 @@
         });
     });
 
-    function bulkRejectionRes(data,formId){
+    function bulkRejectionRes(data){
         if(data.status==1){
             Swal.fire({ icon: 'success', title: data.message});
 
