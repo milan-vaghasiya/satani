@@ -485,25 +485,4 @@ class RejectionReviewModel extends MasterModel
         $queryData['where']['rej_found.id'] = $data['id'];
         return $this->row($queryData);
     }
-
-    public function getRejectionReviewData(){
-        $queryData['tableName'] = "prc_log";
-        $queryData['select'] = "prc_log.*,prc_master.prc_date,prc_master.prc_number,process_master.process_name,item_master.item_name,item_master.item_code,employee_master.emp_name";
-        $queryData['select'] .=', IF(prc_log.process_by = 1, machine.item_code,
-                                    IF(prc_log.process_by = 2,department_master.name,
-                                        IF(prc_log.process_by = 3,party_master.party_name,""))) as processor_name,IFNULL(rejection_log.review_qty,0) as review_qty,(prc_log.rej_found-IFNULL(rejection_log.review_qty,0)) as pending_qty';
-        $queryData['leftJoin']['prc_master'] = "prc_master.id = prc_log.prc_id";
-        $queryData['leftJoin']['process_master'] = "process_master.id = prc_log.process_id";
-        $queryData['leftJoin']['item_master'] = "item_master.id = prc_master.item_id";
-        $queryData['leftJoin']['item_master machine'] = "machine.id = prc_log.processor_id";
-        $queryData['leftJoin']['department_master'] = "department_master.id = prc_log.processor_id";
-        $queryData['leftJoin']['party_master'] = "party_master.id = prc_log.processor_id";
-        $queryData['leftJoin']['employee_master'] = "employee_master.id = prc_log.operator_id";
-        $queryData['leftJoin']['(SELECT SUM(qty) as review_qty,log_id,prc_id FROM rejection_log WHERE is_delete = 0 AND rejection_log.source="MFG" GROUP BY rejection_log.log_id,prc_id) rejection_log'] = "rejection_log.log_id = prc_log.id AND prc_log.prc_id = rejection_log.prc_id";
-        
-        $queryData['where']['prc_log.rej_found >'] = 0;
-        $queryData['having'][] = "pending_qty > 0";
-
-        return $this->rows($queryData);    
-    }
 }
