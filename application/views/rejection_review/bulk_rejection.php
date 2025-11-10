@@ -17,7 +17,7 @@
                 </div>	
                 <div class="col-sm-2">
                     <label>&nbsp;</label><br>
-                    <button type="button" class="btn btn-success btn-save save-form"  onclick="customStore({'formId':'addRejection','fnsave':'saveReview'});"><i class="fa fa-check"></i> Save</button>
+                    <button type="button" class="btn btn-success btn-save save-form"  onclick="customStore({'formId':'addRejection','fnsave':'saveBulkRejecReview'});"><i class="fa fa-check"></i> Save</button>
                 </div>	                
                 <button type="button" class="refreshReportData loadData d-none"></button>
             </div>
@@ -63,7 +63,7 @@
         $(document).on('click','.loadData',function(e){
             $(".error").html("");
             $.ajax({
-                url: base_url + controller + '/getRejectionReviewRows',
+                url: base_url + controller + '/getBulkRejectionRows',
                 data: {},
                 type: "POST",
                 dataType:'json',
@@ -108,10 +108,7 @@
     function bulkRejectionRes(data){
         if(data.status==1){
             Swal.fire({ icon: 'success', title: data.message});
-
-            setTimeout(() => {
-                window.location.reload();
-            }, 1000);
+            $(".loadData").trigger('click');
         }else{
             if(typeof data.message === "object"){
                 $(".error").html("");
